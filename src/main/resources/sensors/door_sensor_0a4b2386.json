@@ -1,0 +1,15 @@
+{
+  "id": "0a4b2386",
+  "name": "S-Door",
+  "description": "Sensor for door",
+  "type": "Door",
+  "battery_percentage": 100,
+  "sensor_status": {
+    "status": "Online",
+    "value": "open"
+  },
+  "modified_time": 1623411833023,
+  "modified_by": "admin@test.com",
+  "created_time": 1623411829893,
+  "created_by": "admin@test.com"
+}

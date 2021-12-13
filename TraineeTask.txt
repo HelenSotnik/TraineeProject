@@ -1,0 +1,23 @@
+There is Spring Boot project with the set of sensor data files in "src/main/resources/sensors" folder (in .json format).
+
+1. Create endpoint that can return list of sensors from "src/main/resources/sensors".
+Also, endpoint should accept the set of parameters:
+- sensor type (not required)
+- min battery percentage (not required)
+- status: Online/Offline (required)
+
+2. Create endpoint that generates sensors report and save it to the "src/main/resources/reports" folder.
+Report should be in .json format and have the next structure:
+- the number of all sensors in "src/main/resources/sensors"
+- the number of broken sensors
+- the number of online sensors
+
+Pay attention:
+- there is broken sensor in "src/main/resources/sensors", please handle such case;
+- there are sensors with wrong fields in "src/main/resources/sensors", please handle such cases;
+- please write unit tests;
+- please make the code production ready as much as possible;
+- you can use any additional libraries;
+- please publish the result on GitHub.
+
+

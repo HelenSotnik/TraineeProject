@@ -1,0 +1,15 @@
+{
+  "id": "2c5d3259",
+  "name": "S-Window",
+  "description": "Sensor for window",
+  "type": "Window Sensor",
+  "battery_percentage": 90,
+  "sensor_status": {
+    "status": "Online",
+    "value": "close"
+  },
+  "modified_time": 1623411833024,
+  "modified_by": "admin@test.com",
+  "created_time": 1623411829894,
+  "created_by": "admin@test.com"
+}

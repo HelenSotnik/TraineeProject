@@ -1,0 +1,15 @@
+{
+  "id": "0p0p2380",
+  "name": "S-Door",
+  "description": "Sensor for door",
+  "type": "Door",
+  "battery_percentage": 0,
+  "sensor_status": {
+    "status": "Offline",
+    "value": "close"
+  },
+  "modified_time": 1623411833026,
+  "modified_by": "admin@test.com",
+  "created_time": 1623411829896,
+  "created_by": "admin?test.comasd"
+}
