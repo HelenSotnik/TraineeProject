@@ -1,0 +1,15 @@
+{
+  "id": "1b5d3256",
+  "name": "S-Light",
+  "description": "Light sensor",
+  "type": "Light",
+  "battery_percentage": 5,
+  "sensor_status": {
+    "status": "Offline",
+    "value": "night"
+  },
+  "modified_time": 1623411833025,
+  "modified_by": "admin@test.com",
+  "created_time": 1623411829895,
+  "created_by": "admin@test.com"
+}

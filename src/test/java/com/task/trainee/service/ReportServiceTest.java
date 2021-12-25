@@ -18,7 +18,6 @@ import java.util.Collections;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-
 @ExtendWith(MockitoExtension.class)
 class ReportServiceTest {
 
@@ -49,23 +48,23 @@ class ReportServiceTest {
     private void reportInitialization() {
         when(sensorService.findAllSensorsByStatus(any())).thenReturn(Collections.singletonList(sensor));
         when(sensorService.getInvalidatedListOfSensors()).thenReturn(Collections.singletonList(sensor));
-        when(sensorService.getValidatedListOfSensors()).thenReturn(Collections.singletonList(sensor));
+        when(sensorService.getValidatedListOfSensors(sensorService.getInvalidatedListOfSensors())).thenReturn(Collections.singletonList(sensor));
 
         report.setNumberOfSensors(sensorService.getInvalidatedListOfSensors().size());
         report.setNumberOfBrokenSensors(sensorService.getInvalidatedListOfSensors().size()
-                - sensorService.getValidatedListOfSensors().size());
+                - sensorService.getValidatedListOfSensors(sensorService.getInvalidatedListOfSensors()).size());
         report.setNumberOfOnlineSensors(sensorService.findAllSensorsByStatus(Status.Online).size());
     }
 
     @Test
-    void getReportCorrectValuesTest() {
+    void getReport_correctValuesTest() {
         assertTrue(report.getNumberOfBrokenSensors() == 0);
         assertEquals(1, report.getNumberOfOnlineSensors());
         assertSame(1, report.getNumberOfSensors());
     }
 
     @Test
-    void getReportIncorrectValuesTest() {
+    void getReport_incorrectValuesTest() {
         assertFalse(report.getNumberOfBrokenSensors() == 5);
         assertNotEquals(10, report.getNumberOfOnlineSensors());
         assertNotSame(6, report.getNumberOfSensors());

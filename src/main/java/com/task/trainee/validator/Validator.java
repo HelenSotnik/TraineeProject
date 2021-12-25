@@ -3,14 +3,12 @@ package com.task.trainee.validator;
 import com.task.trainee.entities.Sensor;
 import com.task.trainee.entities.Status;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
 public class Validator {
-
     public List<Sensor> validate(List<Sensor> list) {
         String emailRegEx = "([a-zA-Z0-9\\.]{1,30})\\@([a-zA-Z0-9\\.]{1,30})[\\.]com";
         return StreamSupport.stream(list.spliterator(), false)
