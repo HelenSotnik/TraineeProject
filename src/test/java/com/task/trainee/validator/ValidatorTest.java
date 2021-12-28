@@ -31,7 +31,7 @@ class ValidatorTest {
         sensor.setDescription("Door-Sensor");
         sensor.setType("Door");
         sensor.setBatteryPercentage(89);
-        sensor.setStatus(new SensorStatus(Status.Online, "open"));
+        sensor.setStatus(new SensorStatus(Status.ONLINE, "open"));
         sensor.setModifiedTime(2345627281L);
         sensor.setModifiedBy("controller@test.com");
         sensor.setCreatedTime(2345627281L);
@@ -48,8 +48,8 @@ class ValidatorTest {
         assertTrue(validatedList.get(0).getBatteryPercentage() <= 100);
         assertTrue(validatedList.get(0).getBatteryPercentage() > 0);
 
-        assertTrue(validatedList.get(0).getStatus().getStatus().equals(Status.Offline) ||
-                validatedList.get(0).getStatus().getStatus().equals(Status.Online));
+        assertTrue(validatedList.get(0).getStatus().getStatus().equals(Status.OFFLINE) ||
+                validatedList.get(0).getStatus().getStatus().equals(Status.ONLINE));
 
         assertTrue(validatedList.get(0).getModifiedBy().matches(EMAIL_REGEX));
         assertTrue(validatedList.get(0).getCreatedBy().matches(EMAIL_REGEX));
@@ -66,7 +66,7 @@ class ValidatorTest {
         assertFalse(validatedList.get(0).getBatteryPercentage() > 100);
         assertFalse(validatedList.get(0).getBatteryPercentage() < 0);
 
-        assertFalse(validatedList.get(0).getStatus().getStatus().equals(Status.Offline));
+        assertFalse(validatedList.get(0).getStatus().getStatus().equals(Status.OFFLINE));
 
         assertFalse(!validatedList.get(0).getModifiedBy().matches(EMAIL_REGEX));
         assertFalse(!validatedList.get(0).getCreatedBy().matches(EMAIL_REGEX));

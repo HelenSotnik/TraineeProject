@@ -14,7 +14,7 @@ public class ReportService {
     private static final String METHOD_NAME = "getReport()";
     private static final String SERVICE_NAME = "REPORT SERVICE";
 
-    private final static String REPORT_FILE = "src/main/resources/reports/report.json ";
+    private static final  String REPORT_FILE = "src/main/resources/reports/report.json ";
 
     private final SensorService sensorService;
     private final JsonLoadService jsonLoadService;
@@ -28,7 +28,7 @@ public class ReportService {
         int numberOfSensors = sensorService.getInvalidatedListOfSensors().size();
         int numberOfBrokenSensors = sensorService.getInvalidatedListOfSensors().size() -
                 sensorService.getValidatedListOfSensors(sensorService.getInvalidatedListOfSensors()).size();
-        int numberOfOnlineSensors = sensorService.findAllSensorsByStatus(Status.Online).size();
+        int numberOfOnlineSensors = sensorService.findAllSensorsByStatus(Status.ONLINE).size();
 
         Report report = new Report();
         report.setNumberOfSensors(numberOfSensors);

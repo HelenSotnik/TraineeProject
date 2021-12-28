@@ -1,6 +1,10 @@
 package com.task.trainee.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum Status {
-    Online,
-    Offline
+    @SerializedName("Online")
+    ONLINE,
+    @SerializedName("Offline")
+    OFFLINE
 }

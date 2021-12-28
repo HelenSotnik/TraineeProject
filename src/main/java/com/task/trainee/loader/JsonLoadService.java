@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @Component
 public class JsonLoadService {
@@ -27,17 +26,18 @@ public class JsonLoadService {
             mapper.writeValue(file, report);
 
             LOG.info(LogJsonLoadService.getInfoMessage(LOAD_REPORT_TO_JSON_FILE_METHOD_NAME));
+
         } catch (IOException e) {
             LOG.error(LogJsonLoadService.getIOExceptionMessage(LOAD_REPORT_TO_JSON_FILE_METHOD_NAME));
             e.printStackTrace();
         }
     }
 
-    public Sensor loadSensorFromJSONFile(String path) {
+    public Sensor loadSensorFromJSONFile(File file) {
         try {
-            String jsonString = new String(Files.readAllBytes(Paths.get(path)));
+            String jsonString = new String(Files.readAllBytes(file.toPath()));
             GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
+            Gson gson = builder.disableInnerClassSerialization().create();
             Sensor sensor = gson.fromJson(jsonString, Sensor.class);
 
             LOG.info(LogJsonLoadService.getInfoMessage(LOAD_SENSOR_FROM_JSON_FILE_METHOD_NAME));

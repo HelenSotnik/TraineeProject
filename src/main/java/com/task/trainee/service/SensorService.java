@@ -8,22 +8,18 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import com.task.trainee.entities.Sensor;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class SensorService {
 
-    private final String DOOR_SENSOR_0a4b2386 = "src/main/resources/sensors/door_sensor_0a4b2386.json";
-    private final String DOOR_SENSOR_1b9b2380 = "src/main/resources/sensors/door_sensor_1b9b2380.json";
-    private final String DOOR_SENSOR_0p0p2380 = "src/main/resources/sensors/door_sensor_with_wrong_email_0p0p2380.json";
-    private final String LITE_SENSOR_1b5d3256 = "src/main/resources/sensors/lite_sensor_1b5d3256.json";
-    private final String LITE_SENSOR_3b6o4254 = "src/main/resources/sensors/lite_sensor_3b6o4254.json";
-    private final String LITE_SENSOR_5y6o4254 = "src/main/resources/sensors/lite_sensor_5y6o4254.json";
-    private final String WINDOW_SENSOR_8j9f3259 = "src/main/resources/sensors/window_sensor_8j9f3259.json";
-    private final String WINDOW_SENSOR_2c5d3259 = "src/main/resources/sensors/window_sensor_with_wrong_fields_2c5d3259.json";
-    private final String BROKEN_SENSOR_11111 = "src/main/resources/sensors/broken_sensor_11111.json";
+    private static final String SENSORS_PATH = "src/main/resources/sensors";
 
     private static final Logger LOG = Logger.getLogger(SensorService.class);
     private static final String GET_INVALIDATED_SENSORS_LIST_METHOD_NAME = "getInvalidatedListOfSensors()";
@@ -43,24 +39,28 @@ public class SensorService {
     }
 
     public List<Sensor> getInvalidatedListOfSensors() {
-        Sensor ds1 = loadService.loadSensorFromJSONFile(DOOR_SENSOR_0a4b2386);
-        Sensor ds2 = loadService.loadSensorFromJSONFile(DOOR_SENSOR_0p0p2380);
-        Sensor ds3 = loadService.loadSensorFromJSONFile(DOOR_SENSOR_1b9b2380);
-        Sensor ls1 = loadService.loadSensorFromJSONFile(LITE_SENSOR_1b5d3256);
-        Sensor ls2 = loadService.loadSensorFromJSONFile(LITE_SENSOR_3b6o4254);
-        Sensor ls3 = loadService.loadSensorFromJSONFile(LITE_SENSOR_5y6o4254);
-        Sensor ws1 = loadService.loadSensorFromJSONFile(WINDOW_SENSOR_2c5d3259);
-        Sensor ws2 = loadService.loadSensorFromJSONFile(WINDOW_SENSOR_8j9f3259);
-        Sensor bs = loadService.loadSensorFromJSONFile(BROKEN_SENSOR_11111);
-
         List<Sensor> result = new ArrayList<>();
-        Collections.addAll(result, ds1, ds2, ds3, ls1, ls2, ls3, ws1, ws2, bs);
-        if (result == null) {
-            LOG.debug(LogServiceMessageUtil.getFailDebugMessage(SERVICE_NAME, GET_INVALIDATED_SENSORS_LIST_METHOD_NAME));
-        }
 
-        LOG.info(LogServiceMessageUtil.getSuccessInfoMessage(SERVICE_NAME, GET_INVALIDATED_SENSORS_LIST_METHOD_NAME));
-        return result;
+        try {
+            List<File> filesList = Files.walk(Paths.get(SENSORS_PATH))
+                    .filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .collect(Collectors.toList());
+
+            for (File file : filesList) {
+                if (file.isFile() && file.getPath().endsWith(".json")) {
+                    Sensor sensor = loadService.loadSensorFromJSONFile(file);
+                    result.add(sensor);
+                }
+            }
+            LOG.info(LogServiceMessageUtil.getSuccessInfoMessage(SERVICE_NAME, GET_INVALIDATED_SENSORS_LIST_METHOD_NAME));
+            return result;
+
+        } catch (IOException ioException) {
+            LOG.debug(LogServiceMessageUtil.getFailDebugMessage(SERVICE_NAME, GET_INVALIDATED_SENSORS_LIST_METHOD_NAME));
+            ioException.printStackTrace();
+        }
+        return null;
     }
 
     public List<Sensor> getValidatedListOfSensors(List<Sensor> invalidatedList) {
@@ -84,7 +84,7 @@ public class SensorService {
             return findAllByStatusAndBatteryPercentage(status, batteryPercentage);
         }
 
-        List<Sensor> result = StreamSupport.stream(getValidatedListOfSensors(getInvalidatedListOfSensors()).spliterator(), false)
+        List<Sensor> result = getValidatedListOfSensors(getInvalidatedListOfSensors()).stream()
                 .filter(sensor -> sensor.getStatus().getStatus().equals(status))
                 .filter(sensor -> sensor.getType().equals(type))
                 .filter(sensor -> sensor.getBatteryPercentage() >= batteryPercentage)
@@ -99,7 +99,7 @@ public class SensorService {
     }
 
     public List<Sensor> findAllSensorsByStatus(Status status) {
-        List<Sensor> result = StreamSupport.stream(getValidatedListOfSensors(getInvalidatedListOfSensors()).spliterator(), false)
+        List<Sensor> result = getValidatedListOfSensors(getInvalidatedListOfSensors()).stream()
                 .filter(sensor -> sensor.getStatus().getStatus().equals(status))
                 .collect(Collectors.toList());
 
@@ -112,7 +112,7 @@ public class SensorService {
     }
 
     public List<Sensor> findAllSensorsByStatusAndType(Status status, String type) {
-        List<Sensor> result = StreamSupport.stream(getValidatedListOfSensors(getInvalidatedListOfSensors()).spliterator(), false)
+        List<Sensor> result = getValidatedListOfSensors(getInvalidatedListOfSensors()).stream()
                 .filter(sensor -> sensor.getStatus().getStatus().equals(status))
                 .filter(sensor -> sensor.getType().equals(type))
                 .collect(Collectors.toList());
@@ -126,7 +126,8 @@ public class SensorService {
     }
 
     public List<Sensor> findAllByStatusAndBatteryPercentage(Status status, Integer batteryPercentage) {
-        List<Sensor> result = StreamSupport.stream(getValidatedListOfSensors(getInvalidatedListOfSensors()).spliterator(), false)
+        List<Sensor> result = getValidatedListOfSensors(getInvalidatedListOfSensors()).stream()
+                .filter(sensor -> sensor.getStatus().getStatus().equals(status))
                 .filter(sensor -> sensor.getBatteryPercentage() >= batteryPercentage)
                 .collect(Collectors.toList());
 

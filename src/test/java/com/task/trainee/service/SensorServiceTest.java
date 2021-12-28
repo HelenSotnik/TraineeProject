@@ -40,7 +40,7 @@ class SensorServiceTest {
         sensor.setDescription("Sensor for door");
         sensor.setType("Door");
         sensor.setBatteryPercentage(80);
-        sensor.setStatus(new SensorStatus(Status.Online, "closed"));
+        sensor.setStatus(new SensorStatus(Status.ONLINE, "closed"));
         sensor.setCreatedTime(1623411829896L);
         sensor.setCreatedBy("testing@test.com");
         sensor.setModifiedTime(1623411829893L);
@@ -51,7 +51,7 @@ class SensorServiceTest {
     void getInvalidatedListOfSensorsCheckBySize_correctValuesTest() {
         when(jsonLoadService.loadSensorFromJSONFile(any())).thenReturn(sensor);
 
-        testList.add(jsonLoadService.loadSensorFromJSONFile(anyString()));
+        testList.add(jsonLoadService.loadSensorFromJSONFile(any()));
         assertSame(1, testList.size());
     }
 
@@ -59,7 +59,7 @@ class SensorServiceTest {
     void getInvalidatedListOfSensors_incorrectValuesTest() {
         when(jsonLoadService.loadSensorFromJSONFile(any())).thenReturn(sensor);
 
-        testList.add(jsonLoadService.loadSensorFromJSONFile(anyString()));
+        testList.add(jsonLoadService.loadSensorFromJSONFile(any()));
         assertNotSame(3, testList.size());
     }
 
@@ -85,10 +85,10 @@ class SensorServiceTest {
                 .thenReturn(Collections.singletonList(sensor));
 
         List<Sensor> actualList =
-                sensorService.findAllSensors(Status.Online, "Door", 20);
+                sensorService.findAllSensors(Status.ONLINE, "Door", 20);
 
         assertTrue(actualList.get(0).getBatteryPercentage() > 20);
-        assertEquals(Status.Online, actualList.get(0).getStatus().getStatus());
+        assertEquals(Status.ONLINE, actualList.get(0).getStatus().getStatus());
         assertSame("Door", actualList.get(0).getType());
     }
 
@@ -98,10 +98,10 @@ class SensorServiceTest {
                 .thenReturn(Collections.singletonList(sensor));
 
         List<Sensor> actualList =
-                sensorService.findAllSensors(Status.Online, "Door", 50);
+                sensorService.findAllSensors(Status.ONLINE, "Door", 50);
 
         assertFalse(actualList.get(0).getBatteryPercentage() == 10);
-        assertNotEquals(Status.Offline, actualList.get(0).getStatus().getStatus());
+        assertNotEquals(Status.OFFLINE, actualList.get(0).getStatus().getStatus());
         assertNotSame("Light", actualList.get(0).getType());
     }
 
@@ -111,9 +111,9 @@ class SensorServiceTest {
         when(sensorService.findAllSensors(any(Status.class), "", 0))
                 .thenReturn(Collections.singletonList(sensor));
 
-        List<Sensor> actualList = sensorService.findAllSensorsByStatus(Status.Online);
+        List<Sensor> actualList = sensorService.findAllSensorsByStatus(Status.ONLINE);
 
-        assertSame(Status.Online, actualList.get(0).getStatus().getStatus());
+        assertSame(Status.ONLINE, actualList.get(0).getStatus().getStatus());
     }
 
     @Test
@@ -121,9 +121,9 @@ class SensorServiceTest {
         when(sensorService.findAllSensors(any(Status.class), "", 0))
                 .thenReturn(Collections.singletonList(sensor));
 
-        List<Sensor> actualList = sensorService.findAllSensorsByStatus(Status.Online);
+        List<Sensor> actualList = sensorService.findAllSensorsByStatus(Status.ONLINE);
 
-        assertFalse(actualList.get(0).getStatus().getStatus().equals(Status.Offline));
+        assertFalse(actualList.get(0).getStatus().getStatus().equals(Status.OFFLINE));
     }
 
     @Test
@@ -132,9 +132,9 @@ class SensorServiceTest {
                 .thenReturn(Collections.singletonList(sensor));
 
         List<Sensor> actualList =
-                sensorService.findAllSensorsByStatusAndType(Status.Online, "Door");
+                sensorService.findAllSensorsByStatusAndType(Status.ONLINE, "Door");
 
-        assertEquals(Status.Online, actualList.get(0).getStatus().getStatus());
+        assertEquals(Status.ONLINE, actualList.get(0).getStatus().getStatus());
         assertTrue(actualList.get(0).getType().equals("Door"));
     }
 
@@ -144,9 +144,9 @@ class SensorServiceTest {
                 .thenReturn(Collections.singletonList(sensor));
 
         List<Sensor> actualList =
-                sensorService.findAllSensorsByStatusAndType(Status.Online, "Door");
+                sensorService.findAllSensorsByStatusAndType(Status.ONLINE, "Door");
 
-        assertNotSame(Status.Offline, actualList.get(0).getStatus().getStatus());
+        assertNotSame(Status.OFFLINE, actualList.get(0).getStatus().getStatus());
         assertFalse(actualList.get(0).getType().equals("Window"));
     }
 
@@ -156,9 +156,9 @@ class SensorServiceTest {
                 .thenReturn(Collections.singletonList(sensor));
 
         List<Sensor> actualList =
-                sensorService.findAllByStatusAndBatteryPercentage(Status.Online, 10);
+                sensorService.findAllByStatusAndBatteryPercentage(Status.ONLINE, 10);
 
-        assertTrue(actualList.get(0).getStatus().getStatus().equals(Status.Online));
+        assertTrue(actualList.get(0).getStatus().getStatus().equals(Status.ONLINE));
         assertFalse(actualList.get(0).getBatteryPercentage() < 5);
     }
 
@@ -168,9 +168,9 @@ class SensorServiceTest {
                 .thenReturn(Collections.singletonList(sensor));
 
         List<Sensor> actualList =
-                sensorService.findAllByStatusAndBatteryPercentage(Status.Online, 10);
+                sensorService.findAllByStatusAndBatteryPercentage(Status.ONLINE, 10);
 
-        assertFalse(actualList.get(0).getStatus().getStatus().equals(Status.Offline));
+        assertFalse(actualList.get(0).getStatus().getStatus().equals(Status.OFFLINE));
         assertNotEquals(5, actualList.get(0).getBatteryPercentage());
     }
 }

@@ -38,7 +38,7 @@ class SensorControllerTest {
         sensor.setDescription("Door-Sensor");
         sensor.setType("Door");
         sensor.setBatteryPercentage(89);
-        sensor.setStatus(new SensorStatus(Status.Online, "open"));
+        sensor.setStatus(new SensorStatus(Status.ONLINE, "open"));
         sensor.setModifiedTime(2345627281L);
         sensor.setModifiedBy("controller@test.com");
         sensor.setCreatedTime(2345627281L);
@@ -52,7 +52,7 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_allParams_correctValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "Door", 40);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "Door", 40);
 
         assertEquals(1, resultList.size());
 
@@ -66,7 +66,7 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_allParams_incorrectValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "Door", 40);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "Door", 40);
 
         assertNotEquals(5, resultList.size());
 
@@ -80,13 +80,13 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_withOnlyStatusParam_correctValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "", 0);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "", 0);
 
         assertEquals(1, resultList.size());
 
         assertTrue(resultList.size() == testList.size());
 
-        assertTrue(resultList.get(0).getStatus().getStatus().equals(Status.Online));
+        assertTrue(resultList.get(0).getStatus().getStatus().equals(Status.ONLINE));
 
         assertTrue(resultList.get(0).getStatus().getStatus().equals(testList.get(0).getStatus().getStatus()));
     }
@@ -94,11 +94,11 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_withOnlyStatusParam_incorrectValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "", 0);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "", 0);
 
         assertNotEquals(0, resultList.size());
 
-        assertFalse(!resultList.get(0).getStatus().getStatus().equals(Status.Online));
+        assertFalse(!resultList.get(0).getStatus().getStatus().equals(Status.ONLINE));
 
         assertFalse(!resultList.get(0).getStatus().getStatus().equals(testList.get(0).getStatus().getStatus()));
 
@@ -107,11 +107,11 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_withStatusAndTypeParams_correctValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "Door", 0);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "Door", 0);
 
         assertEquals(1, resultList.size());
 
-        assertTrue(resultList.get(0).getStatus().getStatus().equals(Status.Online));
+        assertTrue(resultList.get(0).getStatus().getStatus().equals(Status.ONLINE));
 
         assertTrue(resultList.get(0).getStatus().getStatus().equals(testList.get(0).getStatus().getStatus()));
 
@@ -121,11 +121,11 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_withStatusAndTypeParams_incorrectValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "Door", 0);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "Door", 0);
 
         assertNotEquals(testList.size() + 1, resultList.size());
 
-        assertFalse(resultList.get(0).getStatus().getStatus().equals(Status.Offline));
+        assertFalse(resultList.get(0).getStatus().getStatus().equals(Status.OFFLINE));
 
         assertFalse(!resultList.get(0).getStatus().getStatus().equals(testList.get(0).getStatus().getStatus()));
 
@@ -135,11 +135,11 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_withStatusAndMinBatteryPercentageParams_correctValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "", 20);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "", 20);
 
         assertEquals(testList.size(), resultList.size());
 
-        assertTrue(resultList.get(0).getStatus().getStatus().equals(Status.Online));
+        assertTrue(resultList.get(0).getStatus().getStatus().equals(Status.ONLINE));
 
         assertEquals(resultList.get(0).getStatus().getStatus(), testList.get(0).getStatus().getStatus());
 
@@ -149,11 +149,11 @@ class SensorControllerTest {
     @Test
     void findAllByStatusTypeAndBatteryPercentage_withStatusAndMinBatteryPercentageParams_incorrectValuesCaseTest() {
         List<Sensor> resultList =
-                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.Online, "", 20);
+                sensorController.findAllByStatusTypeAndBatteryPercentage(Status.ONLINE, "", 20);
 
         assertFalse(testList.size() != resultList.size());
 
-        assertNotEquals(Status.Offline, resultList.get(0).getStatus().getStatus());
+        assertNotEquals(Status.OFFLINE, resultList.get(0).getStatus().getStatus());
 
         assertFalse(!resultList.get(0).getStatus().getStatus().equals(testList.get(0).getStatus().getStatus()));
 

@@ -37,7 +37,7 @@ class ReportServiceTest {
         sensor.setDescription("Sensor for door");
         sensor.setType("Door");
         sensor.setBatteryPercentage(80);
-        sensor.setStatus(new SensorStatus(Status.Online, "closed"));
+        sensor.setStatus(new SensorStatus(Status.ONLINE, "closed"));
         sensor.setCreatedTime(1623411829896L);
         sensor.setCreatedBy("testing@test.com");
         sensor.setModifiedTime(1623411829893L);
@@ -53,7 +53,7 @@ class ReportServiceTest {
         report.setNumberOfSensors(sensorService.getInvalidatedListOfSensors().size());
         report.setNumberOfBrokenSensors(sensorService.getInvalidatedListOfSensors().size()
                 - sensorService.getValidatedListOfSensors(sensorService.getInvalidatedListOfSensors()).size());
-        report.setNumberOfOnlineSensors(sensorService.findAllSensorsByStatus(Status.Online).size());
+        report.setNumberOfOnlineSensors(sensorService.findAllSensorsByStatus(Status.ONLINE).size());
     }
 
     @Test

@@ -1,13 +1,15 @@
 package com.task.trainee.entities;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 public class SensorStatus {
+    @SerializedName("status")
     private Status status;
+
+    @SerializedName("value")
     private String value;
 }
